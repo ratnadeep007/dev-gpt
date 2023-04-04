@@ -2,7 +2,9 @@ package main
 
 import (
 	"os"
+	"ratnadeep007/dev-gpt/executor"
 	"ratnadeep007/dev-gpt/openai"
+	"strings"
 	"time"
 
 	"github.com/briandowns/spinner"
@@ -25,7 +27,11 @@ func main() {
 	s.Color("green")
 	s.Start()
 	reply := oai.ChatCompletion(args[1])
-	// fmt.Println(reply)
-	s.FinalMSG = reply
+	reply = strings.ReplaceAll(reply, "`", "")
+	reply = strings.ReplaceAll(reply, "\n", "")
+	reply = strings.Trim(reply, "`")
+	s.FinalMSG = color.GreenString("\n" + reply + "\n")
 	s.Stop()
+
+	executor.Execute(reply)
 }
