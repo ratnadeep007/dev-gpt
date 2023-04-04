@@ -16,11 +16,11 @@ fi
 RELEASE=$(curl -s https://api.github.com/repos/ratnadeep007/dev-gpt/releases/latest | grep "tag_name" | cut -d'"' -f4)
 
 # Download the appropriate executable for the user's operating system
-URL="https://github.com/ratnadeep007/dev-gpt/releases/download/$RELEASE/myapp-$OS"
-curl -L -o myapp "$URL"
+URL="https://github.com/ratnadeep007/dev-gpt/releases/download/$RELEASE/devgpt-$OS"
+curl -L -o devgpt "$URL"
 
 # Make the executable executable
-chmod +x myapp
+chmod +x devgpt
 
 # Move the executable to a directory in the user's PATH
 sudo mv devgpt /usr/local/bin/
