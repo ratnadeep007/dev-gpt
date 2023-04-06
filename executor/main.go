@@ -10,14 +10,14 @@ import (
 )
 
 func Execute(str string) {
-	goodToExecute := confirmExecution()
+	// goodToExecute := confirmExecution()
 
-	if !goodToExecute {
-		return
-	}
+	// if !goodToExecute {
+	// 	return
+	// }
 
-	splitted := strings.Split(str, " ")
-	splitted = append([]string{"-c"}, splitted...)
+	// splitted := strings.Split(str, " ")
+	// splitted = append([]string{"-c"}, splitted...)
 	executable := "bash"
 	cmd := exec.Command(executable, "-c", str)
 
@@ -34,14 +34,14 @@ func Execute(str string) {
 }
 
 func confirmExecution() bool {
-	reply := inputPrompt("\nDo you want to execute this command?[y/n] ")
+	reply := InputPrompt("\nDo you want to execute this command?[y/n] ")
 	if strings.Title(reply) == "Y" {
 		return true
 	}
 	return false
 }
 
-func inputPrompt(label string) string {
+func InputPrompt(label string) string {
 	var s string
 	r := bufio.NewReader(os.Stdin)
 	for {

@@ -45,6 +45,11 @@ type OpenAIResponse struct {
 	Choices []ResponseChoice `json:"choices"`
 }
 
+type OAIReplyContent struct {
+	Explanation string `json:"explanation"`
+	Code        string `json:"code"`
+}
+
 func GetOpenAIClient() OpenAI {
 	key := os.Getenv("OPENAI_API_KEY")
 	if key == "" {
@@ -54,9 +59,14 @@ func GetOpenAIClient() OpenAI {
 	return OpenAI{key: key, model: "gpt-3.5-turbo", url: "https://api.openai.com/v1"}
 }
 
-func (oai *OpenAI) ChatCompletion(question string) string {
+func (oai *OpenAI) ChatCompletion(question string) OAIReplyContent {
 	// Create OpenAI chat completion request struct
-	systemMessage := Message{Role: System, Content: "You are a assistant who is expert in command line tools of linux and unix systems. Only give required code/command as result, no verbose."}
+	systemMessage := Message{Role: System, Content: `You are a assistant who is expert in command line tools of linux and unix systems.
+Reply in json format with following json structure:
+{
+	explanation: "explanation will go here",
+	code: "code that needs to be execute will go here"
+}`}
 	userMessage := Message{Role: User, Content: question}
 	messages := []Message{systemMessage, userMessage}
 	oaiReq := OpenAIRequest{
@@ -102,5 +112,12 @@ func (oai *OpenAI) ChatCompletion(question string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return sResp.Choices[0].Message.Content
+
+	var content OAIReplyContent
+	contentString := sResp.Choices[0].Message.Content
+	err = json.Unmarshal([]byte(contentString), &content)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return content
 }

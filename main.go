@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"ratnadeep007/dev-gpt/executor"
 	"ratnadeep007/dev-gpt/openai"
+	"ratnadeep007/dev-gpt/ui"
 	"strings"
 	"time"
 
@@ -27,11 +29,20 @@ func main() {
 	s.Color("green")
 	s.Start()
 	reply := oai.ChatCompletion(args[1])
-	reply = strings.ReplaceAll(reply, "`", "")
-	reply = strings.ReplaceAll(reply, "\n", "")
-	reply = strings.Trim(reply, "`")
-	s.FinalMSG = color.GreenString("\n" + reply + "\n")
+	// reply := openai.OAIReplyContent{
+	// 	Explanation: "some explanation",
+	// 	Code:        "ls -alh",
+	// }
 	s.Stop()
 
-	executor.Execute(reply)
+	ui.RenderTextInBox(reply.Code)
+
+	fmt.Println()
+	ch := executor.InputPrompt(color.GreenString("Explain or Execute?[e=Explation/x=Execute]:"))
+
+	if strings.ToLower(ch) == "x" {
+		executor.Execute(reply.Code)
+	} else {
+		ui.RenderTextInBox(reply.Explanation)
+	}
 }
