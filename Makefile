@@ -1,5 +1,5 @@
 clean:
-	rm devgpt-*
+	-rm devgpt-*
 
 build: clean
 	GOOS=linux GOARCH=amd64 go build -o devgpt-linux
