@@ -38,11 +38,15 @@ func main() {
 	ui.RenderTextInBox(reply.Code)
 
 	fmt.Println()
-	ch := executor.InputPrompt(color.GreenString("Explain or Execute?[e=Explation/x=Execute]:"))
+	ch := ui.InputPrompt(color.GreenString("Explain or Execute?[e=Explation/x=Execute]:"))
 
 	if strings.ToLower(ch) == "x" {
 		executor.Execute(reply.Code)
 	} else {
 		ui.RenderTextInBox(reply.Explanation)
+		ch := ui.InputPrompt(color.GreenString("Execute?[y/n]"))
+		if strings.ToLower(ch) == "y" {
+			executor.Execute(reply.Code)
+		}
 	}
 }

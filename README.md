@@ -15,6 +15,6 @@ curl -sSL https://raw.githubusercontent.com/ratnadeep007/dev-gpt/main/install.sh
 - [x] Feature to parse out command/code from markdown
 - [x] Execute command
 - [x] Explain command
-- [ ] Execute after explain
+- [x] Execute after explain
 - [ ] Use bubbles if not string given as cmd input
 - [ ] flag to pass file for open_ai key or read form $HOME/.config/openai
